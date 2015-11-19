@@ -55,7 +55,7 @@ public List<Usuario > listarUsuarios ( ) {
 	
 	TypedQuery<Usuario> q=em.createQuery("select c from Usuario c",Usuario.class);
 	List<Usuario> listaCompleto = q.getResultList();
-	List<Usuario> un = new ArrayList<Usuario>();
+	
 	
 	return listaCompleto;//...}
 	

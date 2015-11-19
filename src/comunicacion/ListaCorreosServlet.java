@@ -17,8 +17,8 @@ public class ListaCorreosServlet extends HttpServlet{
 	}
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		 // Set response content type
-		doPost(request,response);
-		 /*
+		//doPost(request,response);
+		 
 		  List<Usuario> nueva = db.listarUsuarios();
 	      response.setContentType("text/html");
 
@@ -36,7 +36,7 @@ public class ListaCorreosServlet extends HttpServlet{
 	      }
 	    
 	    out.close();
-	    */  
+	      
 	     
 			
 	}
@@ -83,7 +83,7 @@ public class ListaCorreosServlet extends HttpServlet{
 					//DataOutputStream out2 = new DataOutputStream(response.getOutputStream());
 					
 					ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
-					objectOutput.writeObject(db.listarUsuarios().toArray());
+					objectOutput.writeObject(db.listarUsuarios());
 					objectOutput.flush();
 					objectOutput.close();
 					

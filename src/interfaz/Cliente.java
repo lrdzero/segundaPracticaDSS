@@ -19,6 +19,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -286,7 +287,9 @@ public class Cliente extends JFrame implements ActionListener{
 			Map<String,String> parametros = new HashMap<String, String>();
 			parametros.put("action", "listarUsuarios");
 			ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
-			List<Usuario> listaUsuarios = (List<Usuario>) respuesta.readObject();	
+			Object object = respuesta.readObject();
+			List<Usuario> listaUsuarios= (List<Usuario>) object;	
+			
 			return listaUsuarios;
 			
 		} catch (Exception e) {
