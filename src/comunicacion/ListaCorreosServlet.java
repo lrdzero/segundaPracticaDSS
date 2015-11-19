@@ -17,7 +17,8 @@ public class ListaCorreosServlet extends HttpServlet{
 	}
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		 // Set response content type
-		 
+		doPost(request,response);
+		 /*
 		  List<Usuario> nueva = db.listarUsuarios();
 	      response.setContentType("text/html");
 
@@ -35,14 +36,14 @@ public class ListaCorreosServlet extends HttpServlet{
 	      }
 	    
 	    out.close();
-	      
+	    */  
 	     
 			
 	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		// Obtenemos un objeto Print Writer para enviar respuesta
 				System.out.println(request.getParameter("action"));
-				PrintWriter out = response.getWriter();
+				//PrintWriter out = response.getWriter();
 				String form = request.getParameter("action");
 				if(form.equals("aniadirUsuario")){
 					Usuario nuevo = new Usuario();
@@ -50,8 +51,8 @@ public class ListaCorreosServlet extends HttpServlet{
 					nuevo.setApellido(request.getParameter("apellido"));
 					nuevo.setEmail(request.getParameter("email"));
 					db.insertar(nuevo);
-					List<Usuario> imprimir = db.listarUsuarios();
-					   
+					//List<Usuario> imprimir = db.listarUsuarios();
+					   /*
 					      out.println("<HTML><HEAD><TILLTE>Leyendo</TITLE></HEAD>");
 					      out.println("<H2>Lista de Usuarios</H2><P>");
 					      out.println("<table><tr><th>Nombre</th><th>Apellidos</th><th>Email<th></tr>");
@@ -64,7 +65,12 @@ public class ListaCorreosServlet extends HttpServlet{
 					      }
 					    
 					     out.close();
-					  
+					  */
+					ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
+					objectOutput.writeInt(0);
+					objectOutput.writeUTF(nuevo.toString());
+					objectOutput.flush();
+					objectOutput.close();
 					
 				}
 				if(form.equals("listarUsuarios")){
@@ -77,7 +83,9 @@ public class ListaCorreosServlet extends HttpServlet{
 					//DataOutputStream out2 = new DataOutputStream(response.getOutputStream());
 					
 					ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
-					objectOutput.writeObject(db.listarUsuarios());
+					objectOutput.writeObject(db.listarUsuarios().toArray());
+					objectOutput.flush();
+					objectOutput.close();
 					
 					//data.wr
 					

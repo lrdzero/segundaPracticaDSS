@@ -327,9 +327,11 @@ public class Cliente extends JFrame implements ActionListener{
 					parametros.put("nombre", nombre);
 					parametros.put("apellido", apellido);
 					parametros.put("email", email);		
-					ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
+					ObjectInputStream respuesta;
+					respuesta= new ObjectInputStream(realizarPeticionPost(urlString, parametros));
 					int codigo = respuesta.readInt();
-					String mensaje = (String) respuesta.readObject();					
+					String mensaje =  respuesta.readUTF();
+					
 					switch (codigo) {
 						case 0:
 							Usuario usuario = new Usuario();
@@ -401,8 +403,7 @@ public class Cliente extends JFrame implements ActionListener{
 			
 			System.out.println("Voy recibir");
 			System.out.println(conexion.getOutputStream().toString());
-			ObjectInputStream in;
-			in=new ObjectInputStream(conexion.getInputStream());
+			
 			
 			
 			return conexion.getInputStream();

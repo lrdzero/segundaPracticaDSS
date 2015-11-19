@@ -1,6 +1,9 @@
 package interfaz;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import modelo.Usuario;
 
 public class TablaUsuarios extends AbstractTableModel{
@@ -34,6 +37,9 @@ public class TablaUsuarios extends AbstractTableModel{
     }
     //Para añadir un usuario a la tabla
     public void add(Usuario usuario) {
+    	if(lista==null){
+    		lista=new ArrayList<Usuario>();
+    	}
         lista.add(usuario);
         fireTableDataChanged();
     }
