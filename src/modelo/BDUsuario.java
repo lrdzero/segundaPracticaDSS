@@ -35,8 +35,8 @@ public static void actualizar ( Usuario usuario ) {
 
 public static void eliminar( Usuario usuario ) {
 	 Query query = em.createQuery(
-		      "DELETE FROM Usuario c WHERE c.nombre = :p");
-		  int deletedCount = query.setParameter("p","'"+usuario.getNombre()+"'" ).executeUpdate();
+		      "DELETE FROM Usuario c WHERE c.email = :p");
+		  int deletedCount = query.setParameter("p","'"+usuario.getEmail()+"'" ).executeUpdate();
 }//... }
 
 //Recuperar un usuario desde la base de datos

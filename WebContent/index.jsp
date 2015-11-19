@@ -7,11 +7,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <title> My first JSP</title>
  </head> 
- <body onLoad="ListaCorreosServlet">  
+   
   <form action="ListaCorreosServlet">   
   
 
-   <input type="submit" value="submit">      
+   <input type="submit" value="CreaBD/Inicia">      
   </form>  
  </body> 
 </html>

@@ -166,7 +166,8 @@ public class Cliente extends JFrame implements ActionListener{
 						Map<String,String> parametros = new HashMap<String, String>();
 						parametros.put("action", "eliminarUsuario");
 						parametros.put("email", usuario.getEmail());
-						ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
+						ObjectInputStream respuesta;
+						respuesta= new ObjectInputStream(realizarPeticionPost(urlString, parametros));
 						int codigo = respuesta.readInt();
 						String mensaje = (String) respuesta.readObject();
 						switch (codigo) {
@@ -400,6 +401,7 @@ public class Cliente extends JFrame implements ActionListener{
 			conexion.setRequestMethod("POST");
 			conexion.setDoOutput(true);
 			OutputStream output = conexion.getOutputStream();
+			
 			output.write(cadenaParametros.getBytes());
 			output.flush();
 			output.close();
@@ -407,7 +409,7 @@ public class Cliente extends JFrame implements ActionListener{
 			System.out.println("Voy recibir");
 			System.out.println(conexion.getOutputStream().toString());
 			
-			
+			System.out.println("Voy a imprimir conexion: "+conexion.getInputStream().toString());
 			
 			return conexion.getInputStream();
 		} catch (MalformedURLException | ProtocolException e1) {

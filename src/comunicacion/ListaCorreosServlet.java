@@ -18,7 +18,7 @@ public class ListaCorreosServlet extends HttpServlet{
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		 // Set response content type
 		//doPost(request,response);
-		 
+		
 		  List<Usuario> nueva = db.listarUsuarios();
 	      response.setContentType("text/html");
 
@@ -36,16 +36,18 @@ public class ListaCorreosServlet extends HttpServlet{
 	      }
 	    
 	    out.close();
-	    //Cambio para que liste  
+	    
 	     
 			
 	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		// Obtenemos un objeto Print Writer para enviar respuesta
-				System.out.println(request.getParameter("action"));
+				System.out.println("soy server"+request.getParameter("action"));
 				//PrintWriter out = response.getWriter();
 				String form = request.getParameter("action");
+			
 				if(form.equals("aniadirUsuario")){
+					System.out.println("Soy el servlet: estoy en Aniadir");
 					Usuario nuevo = new Usuario();
 					nuevo.setNombre(request.getParameter("nombre"));
 					nuevo.setApellido(request.getParameter("apellido"));
@@ -77,7 +79,7 @@ public class ListaCorreosServlet extends HttpServlet{
 					
 					String datString = db.listarUsuarios().toString();
 					
-					
+					System.out.println("Soy el servlet: estoy en listar");
 					//data.write(d);
 					//OutputStream out1 = response.getOutputStream();
 					//DataOutputStream out2 = new DataOutputStream(response.getOutputStream());
@@ -90,9 +92,21 @@ public class ListaCorreosServlet extends HttpServlet{
 					//data.wr
 					
 				}
+				if(form.equals("eliminarUsuario")){
+					System.out.println("Soy el servlet: estoy en Borrar");
+					Usuario nuevo = new Usuario();
+					
+					nuevo.setEmail(request.getParameter("email"));
+					db.eliminar(nuevo);
+					ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
+					objectOutput.writeInt(0);
+					objectOutput.writeUTF("Borrado con exito");
+					objectOutput.flush();
+					objectOutput.close();
+				}
 				
 					
-				
+				form="";
 				
 				
 			
