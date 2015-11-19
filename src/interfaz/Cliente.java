@@ -149,7 +149,7 @@ public class Cliente extends JFrame implements ActionListener{
 		        }//if
 		    }//editingStopped()
 		};//Table
-		//Programamos ahora una accion en los botones de la tabla para eliminar a un usuario (fila de la tabla)
+		//Programamose ahora una accion en los botones de la tabla para eliminar a un usuario (fila de la tabla)
 		Action borrarFila = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
