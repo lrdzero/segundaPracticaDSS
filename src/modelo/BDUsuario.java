@@ -34,6 +34,7 @@ public static void actualizar ( Usuario usuario ) {
 //Eliminar un usuario de la base de datos
 
 public static void eliminar( Usuario usuario ) {
+	 System.out.println("ELIMINANDOOOOO.....");
 	 Query query = em.createQuery(
 		      "DELETE FROM Usuario c WHERE c.email = :p");
 		  int deletedCount = query.setParameter("p","'"+usuario.getEmail()+"'" ).executeUpdate();

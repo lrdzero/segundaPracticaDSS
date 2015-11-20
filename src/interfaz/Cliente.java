@@ -19,7 +19,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,7 +148,7 @@ public class Cliente extends JFrame implements ActionListener{
 		        }//if
 		    }//editingStopped()
 		};//Table
-		//Programamose ahora una accion en los botones de la tabla para eliminar a un usuario (fila de la tabla)
+		//Programamos ahora una accion en los botones de la tabla para eliminar a un usuario (fila de la tabla)
 		Action borrarFila = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
@@ -166,8 +165,7 @@ public class Cliente extends JFrame implements ActionListener{
 						Map<String,String> parametros = new HashMap<String, String>();
 						parametros.put("action", "eliminarUsuario");
 						parametros.put("email", usuario.getEmail());
-						ObjectInputStream respuesta;
-						respuesta= new ObjectInputStream(realizarPeticionPost(urlString, parametros));
+						ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
 						int codigo = respuesta.readInt();
 						String mensaje = (String) respuesta.readObject();
 						switch (codigo) {
@@ -288,11 +286,8 @@ public class Cliente extends JFrame implements ActionListener{
 			Map<String,String> parametros = new HashMap<String, String>();
 			parametros.put("action", "listarUsuarios");
 			ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
-			Object object = respuesta.readObject();
-			List<Usuario> listaUsuarios= (List<Usuario>) object;	
-			
+			List<Usuario> listaUsuarios = (List<Usuario>) respuesta.readObject();	
 			return listaUsuarios;
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -331,11 +326,9 @@ public class Cliente extends JFrame implements ActionListener{
 					parametros.put("nombre", nombre);
 					parametros.put("apellido", apellido);
 					parametros.put("email", email);		
-					ObjectInputStream respuesta;
-					respuesta= new ObjectInputStream(realizarPeticionPost(urlString, parametros));
+					ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
 					int codigo = respuesta.readInt();
-					String mensaje =  respuesta.readUTF();
-					
+					String mensaje = (String) respuesta.readUTF();					
 					switch (codigo) {
 						case 0:
 							Usuario usuario = new Usuario();
@@ -377,8 +370,7 @@ public class Cliente extends JFrame implements ActionListener{
 	//@param parametros : Parametros de la peticion
 	//@return : Respuesta obtenida tras la peticion o <tt>null</tt> en caso de fallar la peticion/respuesta 
 	@SuppressWarnings("deprecation")
-	public InputStream realizarPeticionPost(String urlString, Map<String,String> parametros) throws ClassNotFoundException {
-		System.out.println("Hola");
+	public InputStream realizarPeticionPost(String urlString, Map<String,String> parametros) {
 		String cadenaParametros = "";
 		boolean primerPar = true;
 		for (Map.Entry<String, String> entry : parametros.entrySet()) {
@@ -393,24 +385,15 @@ public class Cliente extends JFrame implements ActionListener{
 		    cadenaParametros += parDeParametro;
 		}
 		try {
-			System.out.println("convertidos parametros");
 			URL url = new URL(urlString);
 			HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
-			System.out.println("Llevo a cabo la conexion");
 			conexion.setUseCaches(false);
 			conexion.setRequestMethod("POST");
 			conexion.setDoOutput(true);
 			OutputStream output = conexion.getOutputStream();
-			
 			output.write(cadenaParametros.getBytes());
 			output.flush();
 			output.close();
-			
-			System.out.println("Voy recibir");
-			System.out.println(conexion.getOutputStream().toString());
-			
-			System.out.println("Voy a imprimir conexion: "+conexion.getInputStream().toString());
-			
 			return conexion.getInputStream();
 		} catch (MalformedURLException | ProtocolException e1) {
 			e1.printStackTrace();
