@@ -18,7 +18,7 @@ public class ListaCorreosServlet extends HttpServlet{
 	public void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		 // Set response content type
 		//doPost(request,response);
-		/*
+		
 		  List<Usuario> nueva = db.listarUsuarios();
 		  //doPost(request,response);
 	      //response.setContentType("text/html");
@@ -37,7 +37,14 @@ public class ListaCorreosServlet extends HttpServlet{
 	      }
 	    
 	    out.close();
-	    */
+	    
+		
+	
+	     
+			
+	}
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		// Obtenemos un objeto Print Writer para enviar respuesta
 		System.out.println("soy server"+request.getParameter("action"));
 		//PrintWriter out = response.getWriter();
 		String form = request.getParameter("action");
@@ -47,13 +54,22 @@ public class ListaCorreosServlet extends HttpServlet{
 			Usuario nuevo = new Usuario();
 			
 			nuevo.setEmail(request.getParameter("email"));
-			db.eliminar(nuevo);
+			if(db.existeEmail(nuevo.getEmail())){
+				db.eliminar(nuevo);
 			
-			ObjectOutputStream neto = new ObjectOutputStream(response.getOutputStream());
-			neto.writeInt(0);
-			neto.writeUTF("Borrado con exito");
-			neto.flush();
-			neto.close();
+				ObjectOutputStream neto = new ObjectOutputStream(response.getOutputStream());
+				neto.writeInt(0);
+				neto.writeUTF("Borrado con exito");
+				neto.flush();
+				neto.close();
+			}
+			else{
+				ObjectOutputStream neto = new ObjectOutputStream(response.getOutputStream());
+				neto.writeInt(1);
+				neto.writeUTF("Borrado error de borrado el email no se encuentra");
+				neto.flush();
+				neto.close();
+			}
 		
 			
 			
@@ -64,9 +80,7 @@ public class ListaCorreosServlet extends HttpServlet{
 			String datString = db.listarUsuarios().toString();
 			
 			System.out.println("Soy el servlet: estoy en listar");
-			//data.write(d);
-			//OutputStream out1 = response.getOutputStream();
-			//DataOutputStream out2 = new DataOutputStream(response.getOutputStream());
+			
 			
 			ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
 			objectOutput.writeObject(db.listarUsuarios());
@@ -82,35 +96,25 @@ public class ListaCorreosServlet extends HttpServlet{
 			nuevo.setNombre(request.getParameter("nombre"));
 			nuevo.setApellido(request.getParameter("apellido"));
 			nuevo.setEmail(request.getParameter("email"));
-			db.insertar(nuevo);
-			//List<Usuario> imprimir = db.listarUsuarios();
-			   /*
-			      out.println("<HTML><HEAD><TILLTE>Leyendo</TITLE></HEAD>");
-			      out.println("<H2>Lista de Usuarios</H2><P>");
-			      out.println("<table><tr><th>Nombre</th><th>Apellidos</th><th>Email<th></tr>");
-			      for(int i=0;i<imprimir.size();i++){
-			    	  out.println("<tr>");
-			    	  out.println("<td id=\"name\""+i+">"+imprimir.get(i).getNombre()+"</td>");
-			    	  out.println("<td id=\"name\""+i+">"+imprimir.get(i).getApellido()+"</td>");
-			    	  out.println("<td id=\"name\""+i+">"+imprimir.get(i).getEmail()+"</td>");
-			    	  out.println("</tr>");
-			      }
-			    
-			     out.close();
-			  */
-			ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
-			objectOutput.writeInt(0);
-			objectOutput.writeUTF(nuevo.toString());
-			objectOutput.flush();
-			objectOutput.close();
-		}
-	
-	     
+			if(!db.existeEmail(nuevo.getEmail())){
+				db.insertar(nuevo);
+				ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
+				objectOutput.writeInt(0);
+				objectOutput.writeUTF(nuevo.toString());
+				objectOutput.flush();
+				objectOutput.close();
+			}
+			else{
+				ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
+				objectOutput.writeInt(1);
+				objectOutput.writeUTF("Este email ya existe");
+				objectOutput.flush();
+				objectOutput.close();
+				
+			}
 			
-	}
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		// Obtenemos un objeto Print Writer para enviar respuesta
-			doGet(request,response);
+			
+		}
 				
 					
 			

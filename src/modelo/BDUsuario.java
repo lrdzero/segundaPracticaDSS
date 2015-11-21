@@ -18,10 +18,11 @@ public BDUsuario(){
 }
 //Insertar un usuario; si ya existe, no tiene efecto.
 public static void insertar ( Usuario usuario ) { //...}
-	
+	if(!existeEmail(usuario.getEmail())){
 	em.getTransaction().begin();
 	em.persist(usuario);
 	em.getTransaction().commit();
+	}
 	
 }
 
@@ -34,25 +35,58 @@ public static void actualizar ( Usuario usuario ) {
 //Eliminar un usuario de la base de datos
 
 public static void eliminar( Usuario usuario ) {
-	 System.out.println("ELIMINANDOOOOO.....");
-	 Usuario yo = em.find(Usuario.class, usuario.getEmail());
-	 em.getTransaction().begin();
-	 em.remove(yo);
-	 em.getTransaction().commit();
+	
+	 Usuario aBorrar = seleccionarUsuario(usuario.getEmail());
+	 if(aBorrar!=null){
+		 em.getTransaction().begin();
+		 em.remove(aBorrar);
+		 em.getTransaction().commit();
+	 }
+	// Usuario yo = em.find(Usuario.class, usuario.getEmail());
+	// em.getTransaction().begin();
+	// em.remove(yo);
+	// em.getTransaction().commit();
+	 
 }//... }
 
 //Recuperar un usuario desde la base de datos
 
 public static Usuario seleccionarUsuario ( String email ) {
+	String arg1 =email;
+	Usuario aDevolver = null;
+	if(existeEmail(email)){
+		Query q =em.createQuery("Select sm from Usuario sm where sm.email=:arg1");
+		q.setParameter("arg1",arg1);
+		List<Usuario>list =q.getResultList();
+		aDevolver=list.get(0);
+	}
 	
-	return null;//...}
+	
+	return aDevolver;//...}
 }
 //Comprobar que existe el usuario cuyo email pasamos como
 
 public static boolean existeEmail ( String email ) {
-	boolean em = false;
-
-	return em; //...}
+	boolean emt = false;
+	//TypedQuery<Usuario> q=em.createQuery("select c.nombre from Usuario c where c='"+email+"'",Usuario.class);
+	//List<Usuario> l = q.getResultList();
+	//System.out.println("Usuario es: "+l.get(0).getNombre());
+	String arg1=email;
+	Query query = em.createQuery("Select sm.nombre from Usuario sm where sm.email=:arg1");
+	query.setParameter("arg1", arg1);
+	List <String> nm =query.getResultList();
+	if(nm!=null){
+		if(nm.size()>0){
+			emt=true;
+		}
+		else{
+			emt=false;
+		}
+	}
+	else{
+		emt=false;
+	}
+	return emt; //...}
 }
 //Listar los usuarios de la base de datos
 
