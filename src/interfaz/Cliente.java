@@ -165,9 +165,10 @@ public class Cliente extends JFrame implements ActionListener{
 						Map<String,String> parametros = new HashMap<String, String>();
 						parametros.put("action", "eliminarUsuario");
 						parametros.put("email", usuario.getEmail());
-						ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
+						ObjectInputStream respuesta=null;
+						respuesta= new ObjectInputStream(realizarPeticionPost(urlString, parametros));
 						int codigo = respuesta.readInt();
-						String mensaje = (String) respuesta.readObject();
+						String mensaje = (String) respuesta.readUTF();
 						switch (codigo) {
 							case 0:
 						        modeloTablaUsuarios.removeRow(modelRow);
@@ -384,16 +385,21 @@ public class Cliente extends JFrame implements ActionListener{
 					URLEncoder.encode(entry.getValue()));
 		    cadenaParametros += parDeParametro;
 		}
+		CokokieManager nt = new CokokieManager();
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+			
 			conexion.setUseCaches(false);
 			conexion.setRequestMethod("POST");
 			conexion.setDoOutput(true);
+			
 			OutputStream output = conexion.getOutputStream();
 			output.write(cadenaParametros.getBytes());
 			output.flush();
 			output.close();
+			
+			
 			return conexion.getInputStream();
 		} catch (MalformedURLException | ProtocolException e1) {
 			e1.printStackTrace();

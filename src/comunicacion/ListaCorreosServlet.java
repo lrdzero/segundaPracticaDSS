@@ -48,10 +48,14 @@ public class ListaCorreosServlet extends HttpServlet{
 			
 			nuevo.setEmail(request.getParameter("email"));
 			db.eliminar(nuevo);
+			
 			ObjectOutputStream neto = new ObjectOutputStream(response.getOutputStream());
 			neto.writeInt(0);
 			neto.writeUTF("Borrado con exito");
+			neto.flush();
+			neto.close();
 		
+			
 			
 			
 		}

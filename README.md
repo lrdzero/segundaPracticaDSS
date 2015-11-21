@@ -14,8 +14,9 @@ Tras esto seleccione el archivo cliente.java RunAs->Java aplication.
 
 ###Métodos correctos.
 ####Insertar
+####Eliminar
 ####ListarUsuarios
 ###Métodos en Desarrollo
-####eliminarUsuario (error en inputstream)
+
 ####modificarUsuario
 ####selectUsuario

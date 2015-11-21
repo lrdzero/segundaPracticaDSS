@@ -35,20 +35,24 @@ public static void actualizar ( Usuario usuario ) {
 
 public static void eliminar( Usuario usuario ) {
 	 System.out.println("ELIMINANDOOOOO.....");
-	 Query query = em.createQuery(
-		      "DELETE FROM Usuario c WHERE c.email = :p");
-		  int deletedCount = query.setParameter("p","'"+usuario.getEmail()+"'" ).executeUpdate();
+	 Usuario yo = em.find(Usuario.class, usuario.getEmail());
+	 em.getTransaction().begin();
+	 em.remove(yo);
+	 em.getTransaction().commit();
 }//... }
 
 //Recuperar un usuario desde la base de datos
 
 public static Usuario seleccionarUsuario ( String email ) {
+	
 	return null;//...}
 }
 //Comprobar que existe el usuario cuyo email pasamos como
 
 public static boolean existeEmail ( String email ) {
-	return false; //...}
+	boolean em = false;
+
+	return em; //...}
 }
 //Listar los usuarios de la base de datos
 
