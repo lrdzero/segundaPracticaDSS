@@ -16,7 +16,7 @@ Tras esto seleccione el archivo cliente.java RunAs->Java aplication.
 ####Insertar
 ####Eliminar
 ####ListarUsuarios
-###Métodos en Desarrollo
-
 ####modificarUsuario
 ####selectUsuario
+
+

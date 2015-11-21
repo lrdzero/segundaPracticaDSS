@@ -29,7 +29,13 @@ public static void insertar ( Usuario usuario ) { //...}
 //Actualizar los datos de un usuario en la base de datos
 
 public static void actualizar ( Usuario usuario ) {
-	
+	Usuario aActualizar=seleccionarUsuario(usuario.getEmail());
+	 
+	  em.getTransaction().begin();
+	  aActualizar.setNombre(usuario.getNombre());
+	  aActualizar.setEmail(usuario.getEmail());
+	  aActualizar.setApellido(usuario.getApellido());
+	  em.getTransaction().commit();
 }//... }
 
 //Eliminar un usuario de la base de datos

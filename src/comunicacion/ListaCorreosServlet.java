@@ -100,7 +100,7 @@ public class ListaCorreosServlet extends HttpServlet{
 				db.insertar(nuevo);
 				ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
 				objectOutput.writeInt(0);
-				objectOutput.writeUTF(nuevo.toString());
+				objectOutput.writeUTF("Usuario insertado con exito");
 				objectOutput.flush();
 				objectOutput.close();
 			}
@@ -113,6 +113,29 @@ public class ListaCorreosServlet extends HttpServlet{
 				
 			}
 			
+			
+		}
+		else if(form.equals("actualizarUsuario")){
+			System.out.println("Soy el servlet: estoy en actualizar");
+			Usuario nuevo = new Usuario();
+			nuevo.setNombre(request.getParameter("nombre"));
+			nuevo.setApellido(request.getParameter("apellido"));
+			nuevo.setEmail(request.getParameter("email"));
+			if(db.existeEmail(nuevo.getEmail())){
+				db.actualizar(nuevo);
+				ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
+				objectOutput.writeInt(0);
+				objectOutput.writeUTF("Actualizado correcto");
+				objectOutput.flush();
+				objectOutput.close();
+			}
+			else{
+				ObjectOutputStream objectOutput = new ObjectOutputStream(response.getOutputStream());
+				objectOutput.writeInt(0);
+				objectOutput.writeUTF("Actualizado incorrecto: no se pudo encontrar coincidencia");
+				objectOutput.flush();
+				objectOutput.close();
+			}
 			
 		}
 				
